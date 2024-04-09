@@ -1,0 +1,22 @@
+{
+    "accounts": [
+        {
+            "server": 53,
+            "warp": "/warp thehaifim",
+            "username": "acc1"
+        },
+        {
+            "server": 53,
+            "warp": "/warp softhaia_",
+            "username": "acc2"
+        },
+        {
+            "server": 53,
+            "warp": "/warp liaolaoda",
+            "username": "acc3"
+        }
+    ],
+    "trade_text": "",
+    "lottery_text": "",
+    "facility_text": ""
+}
