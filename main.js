@@ -33,7 +33,7 @@ const initBot = () => {
 
     const ad = () => {
         trade_and_lottery = setInterval(function () {
-            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config/config.json`, 'utf8'))
+            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`, 'utf8'))
             try {
                 if (config.trade_text && config.trade_text !== '') bot.chat(`$${config.trade_text}`)
                 if (config.lottery_text && config.lottery_text !== '') bot.chat(`%${config.lottery_text}`)
@@ -41,12 +41,12 @@ const initBot = () => {
         }, 605000)
 
         facility = setInterval(function () {
-            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config/config.json`, 'utf8'))
+            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`, 'utf8'))
             try { if (config.facility_text && config.facility_text !== '') bot.chat(`!${config.facility_text}`) } catch { }
         }, 1805000)
 
         auto_warp = setInterval(function () {
-            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config/config.json`, 'utf8'))
+            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`, 'utf8'))
             try { bot.chat(config.warp) } catch { }
         }, 600000)
     }
