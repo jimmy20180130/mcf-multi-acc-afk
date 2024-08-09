@@ -16,7 +16,14 @@
             "username": "acc3"
         }
     ],
-    "trade_text": "",
-    "lottery_text": "",
-    "facility_text": ""
+    "advertisement": [
+        {
+            "text": "宣傳文字 1",
+            "interval": 123
+        }, 
+        {
+            "text": "宣傳文字 2",
+            "interval": 456 
+        }
+    ]
 }

@@ -9,6 +9,8 @@ let config = JSON.parse(fs.readFileSync("config.json"), 'utf8');
 
 let bot;
 
+let intervals = [];
+
 let rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -27,28 +29,19 @@ const initBot = () => {
     bot = mineflayer.createBot(botArgs);
     bot.loadPlugin(autoeat)
 
-    let trade_and_lottery;
-    let facility;
-    let auto_warp;
-
     const ad = () => {
-        trade_and_lottery = setInterval(function () {
-            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`, 'utf8'))
-            try {
-                if (config.trade_text && config.trade_text !== '') bot.chat(`$${config.trade_text}`)
-                if (config.lottery_text && config.lottery_text !== '') bot.chat(`%${config.lottery_text}`)
-            } catch { }
-        }, 605000)
+        let config = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`, 'utf8'))
 
-        facility = setInterval(function () {
-            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`, 'utf8'))
-            try { if (config.facility_text && config.facility_text !== '') bot.chat(`!${config.facility_text}`) } catch { }
-        }, 1805000)
-
-        auto_warp = setInterval(function () {
-            config = JSON.parse(fs.readFileSync(`${process.cwd()}/config.json`, 'utf8'))
-            try { bot.chat(config.warp) } catch { }
-        }, 600000)
+        for (let item of config.advertisement) {
+            intervals.push(setInterval(async () => {
+                try {
+                    bot.chat(item.text)
+                    console.log(`[INFO] 發送廣告: ${item.text}`)
+                } catch (e) {
+                    console.log(`[ERROR] 發送廣告時發生錯誤: ${e}`)
+                }
+            }, item.interval))
+        }
     }
 
     bot.once("login", () => {
@@ -73,10 +66,12 @@ const initBot = () => {
         bot.chat(config.accounts[config.accounts.findIndex((account) => account.username === botArgs.username)].warp)
 
         try {
-            if (config.trade_text && config.trade_text !== '') bot.chat(`$${config.trade_text}`)
-            if (config.lottery_text && config.lottery_text !== '') bot.chat(`%${config.lottery_text}`)
-            if (config.facility_text && config.facility_text !== '') bot.chat(`!${config.facility_text}`)
-        } catch { }
+            for (let item of config.advertisement) {
+                if (item.text && item.interval) bot.chat(item.text);
+            }
+        } catch (e) {
+            console.log(`[ERROR] 發送廣告時發生錯誤: ${e}`)
+        }
 
         setTimeout(() => {
             if (botArgs.username == config.accounts[0].username) {
@@ -108,9 +103,11 @@ const initBot = () => {
         for (listener of rl.listeners('line')) {
             rl.removeListener('line', listener)
         }
-        clearInterval(trade_and_lottery)
-        clearInterval(facility)
-        clearInterval(auto_warp)
+
+        for (let interval of intervals) {
+            clearInterval(interval);
+        }
+
         setTimeout(initBot, 5000);
     });
 
@@ -148,14 +145,6 @@ const initBot = () => {
         for (const entity of Object.values(bot.entities)) {
             if (entity === bot.entity) { continue }
             applyEntityCollision(entity)
-        }
-
-        //check if the bot is in the water
-        if (bot.blockAt(bot.entity.position).type === 32) {
-            console.log('Bot is in the water')
-            //檢查水的流向
-            let flow = bot.blockAt(bot.entity.position).metadata
-            console.log('Flow: ' + flow)
         }
     })
 

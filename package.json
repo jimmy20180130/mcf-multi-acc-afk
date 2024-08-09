@@ -1,7 +1,7 @@
 {
-    "name": "mcf-afk-bot",
+    "name": "mcf-afk-bot-multi-acc",
     "bin": {
-        "mcf-afk": "./start.js"
+        "mcf-afk": "start.js"
     },
     "dependencies": {
         "minecraft-data": "^3.48.0",
@@ -13,5 +13,41 @@
         "readline-sync": "^1.4.10",
         "silly-datetime": "^0.1.2",
         "mineflayer-auto-eat": "3.3.6"
+    },
+    "version": "1.0.0",
+    "description": "A Minecraft multi-acc AFK bot that can use in mcfallout.net ",
+    "main": "start.js",
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "pkg start.js -t node18-win-x64 -c package.json --assets main.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jimmy20180130/mcf-multi-acc-afk.git"
+    },
+    "keywords": [
+        "mcfallout",
+        "afk",
+        "multiacc",
+        "minecraft",
+        "bot",
+        "mineflayer"
+    ],
+    "author": "jimmy20180130",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jimmy20180130/mcf-multi-acc-afk/issues"
+    },
+    "homepage": "https://github.com/jimmy20180130/mcf-multi-acc-afk#readme",
+    "pkg": {
+        "assets": [
+            "node_modules/**/*",
+            "main.js"
+        ],
+        "scripts": [
+            "main.js",
+            "start.js"
+        ]
     }
 }

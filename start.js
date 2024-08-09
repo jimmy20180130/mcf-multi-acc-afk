@@ -2,6 +2,7 @@ const { fork } = require('child_process');
 const readline = require('readline')
 const fs = require('fs');
 const config = JSON.parse(fs.readFileSync("config.json"), 'utf8');
+const path = require('path');
 
 console.log('[INFO] 正在開始執行由 Jimmy 開發的 [廢土多開掛機機器人]');
 
@@ -11,7 +12,8 @@ let rl = readline.createInterface({
 });
 
 function spawnChild(username) {
-    let client = fork("./main.js", [username], { silent: true });
+    console.log(`[INFO] 正在啟動 ${username} 的機器人...`);
+    let client = fork(path.join(__dirname, 'main.js'), [username], { silent: true });
 
     rl.on('line', async function (line) {
         if (client != undefined) client.stdin.write(line + '\n');
