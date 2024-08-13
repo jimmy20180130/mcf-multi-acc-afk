@@ -65,12 +65,14 @@ const initBot = () => {
         bot.chat(`/ts ${config.accounts[config.accounts.findIndex((account) => account.username === botArgs.username)].server}`)
         bot.chat(config.accounts[config.accounts.findIndex((account) => account.username === botArgs.username)].warp)
 
-        try {
-            for (let item of config.advertisement) {
-                if (item.text && item.interval) bot.chat(item.text);
+        if (botArgs.username == config.accounts[0].username) {
+            try {
+                for (let item of config.advertisement) {
+                    if (item.text && item.interval) bot.chat(item.text);
+                }
+            } catch (e) {
+                console.log(`[ERROR] 發送廣告時發生錯誤: ${e}`)
             }
-        } catch (e) {
-            console.log(`[ERROR] 發送廣告時發生錯誤: ${e}`)
         }
 
         setTimeout(() => {
